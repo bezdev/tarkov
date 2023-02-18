@@ -1,0 +1,481 @@
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="quests.css" />
+    </head>
+    <script>
+// quest data
+var QUEST_DATA = [
+    {'name': 'A Fuel Matter', 'url': 'https://escapefromtarkov.fandom.com//wiki/A_Fuel_Matter', 'trader': 'Ragman', 'location': 'Reserve', 'is_required_for_kappa': 'true'},
+    {'name': 'A Kind Snow Maiden', 'url': 'https://escapefromtarkov.fandom.com//wiki/A_Kind_Snow_Maiden', 'trader': 'Therapist', 'location': 'Any', 'is_required_for_kappa': 'false'},
+    {'name': 'A Shooter Born in Heaven', 'url': 'https://escapefromtarkov.fandom.com//wiki/A_Shooter_Born_in_Heaven', 'trader': 'Mechanic', 'location': 'Woods, Reserve, Shoreline, Customs, Lighthouse, Streets of Tarkov', 'is_required_for_kappa': 'true'},
+    {'name': 'Acquaintance', 'url': 'https://escapefromtarkov.fandom.com//wiki/Acquaintance', 'trader': 'Jaeger', 'location': 'Any', 'is_required_for_kappa': 'true'},
+    {'name': 'Action test', 'url': 'https://escapefromtarkov.fandom.com//wiki/Action_test', 'trader': 'Fence', 'location': '', 'is_required_for_kappa': 'false'},
+    {'name': 'Ambulance', 'url': 'https://escapefromtarkov.fandom.com//wiki/Ambulance', 'trader': 'Jaeger', 'location': 'Any', 'is_required_for_kappa': 'true'},
+    {'name': 'An Apple a Day Keeps the Doctor Away', 'url': 'https://escapefromtarkov.fandom.com//wiki/An_Apple_a_Day_Keeps_the_Doctor_Away', 'trader': 'Therapist', 'location': '', 'is_required_for_kappa': 'false'},
+    {'name': 'Anesthesia', 'url': 'https://escapefromtarkov.fandom.com//wiki/Anesthesia', 'trader': 'Prapor', 'location': 'Shoreline', 'is_required_for_kappa': 'true'},
+    {'name': 'Assessment - Part 1', 'url': 'https://escapefromtarkov.fandom.com//wiki/Assessment_-_Part_1', 'trader': 'Mechanic', 'location': 'Lighthouse', 'is_required_for_kappa': 'false'},
+    {'name': 'Assessment - Part 2', 'url': 'https://escapefromtarkov.fandom.com//wiki/Assessment_-_Part_2', 'trader': 'Mechanic', 'location': 'Woods', 'is_required_for_kappa': 'false'},
+    {'name': 'Assessment - Part 3', 'url': 'https://escapefromtarkov.fandom.com//wiki/Assessment_-_Part_3', 'trader': 'Mechanic', 'location': 'The Lab', 'is_required_for_kappa': 'false'},
+    {'name': 'Athlete', 'url': 'https://escapefromtarkov.fandom.com//wiki/Athlete', 'trader': 'Therapist', 'location': '', 'is_required_for_kappa': 'true'},
+    {'name': 'Audiophile', 'url': 'https://escapefromtarkov.fandom.com//wiki/Audiophile', 'trader': 'Ragman', 'location': 'Streets of Tarkov', 'is_required_for_kappa': 'false'},
+    {'name': 'Audit', 'url': 'https://escapefromtarkov.fandom.com//wiki/Audit', 'trader': 'Ragman', 'location': 'Streets of Tarkov', 'is_required_for_kappa': 'false'},
+    {'name': 'Back Door', 'url': 'https://escapefromtarkov.fandom.com//wiki/Back_Door', 'trader': 'Mechanic', 'location': 'Reserve', 'is_required_for_kappa': 'true'},
+    {'name': 'Bad Habit', 'url': 'https://escapefromtarkov.fandom.com//wiki/Bad_Habit', 'trader': 'Mechanic', 'location': '', 'is_required_for_kappa': 'true'},
+    {'name': 'Bad Rep Evidence', 'url': 'https://escapefromtarkov.fandom.com//wiki/Bad_Rep_Evidence', 'trader': 'Prapor', 'location': 'Customs', 'is_required_for_kappa': 'true'},
+    {'name': 'Bad Santa', 'url': 'https://escapefromtarkov.fandom.com//wiki/Bad_Santa', 'trader': 'Skier', 'location': 'Any', 'is_required_for_kappa': 'false'},
+    {'name': 'Ballet Lover', 'url': 'https://escapefromtarkov.fandom.com//wiki/Ballet_Lover', 'trader': 'Ragman', 'location': 'Streets of Tarkov', 'is_required_for_kappa': 'false'},
+    {'name': 'Best Job in the World', 'url': 'https://escapefromtarkov.fandom.com//wiki/Best_Job_in_the_World', 'trader': 'Prapor', 'location': '', 'is_required_for_kappa': 'false'},
+    {'name': 'Big Customer', 'url': 'https://escapefromtarkov.fandom.com//wiki/Big_Customer', 'trader': 'Prapor', 'location': 'Customs', 'is_required_for_kappa': 'false'},
+    {'name': 'Big Sale', 'url': 'https://escapefromtarkov.fandom.com//wiki/Big_Sale', 'trader': 'Ragman', 'location': 'Interchange', 'is_required_for_kappa': 'true'},
+    {'name': 'Booze', 'url': 'https://escapefromtarkov.fandom.com//wiki/Booze', 'trader': 'Ragman', 'location': '', 'is_required_for_kappa': 'true'},
+    {'name': 'BP Depot', 'url': 'https://escapefromtarkov.fandom.com//wiki/BP_Depot', 'trader': 'Prapor', 'location': 'Customs', 'is_required_for_kappa': 'true'},
+    {'name': 'Broadcast - Part 1', 'url': 'https://escapefromtarkov.fandom.com//wiki/Broadcast_-_Part_1', 'trader': 'Mechanic', 'location': 'Lighthouse', 'is_required_for_kappa': 'true'},
+    {'name': 'Broadcast - Part 2', 'url': 'https://escapefromtarkov.fandom.com//wiki/Broadcast_-_Part_2', 'trader': 'Mechanic', 'location': 'Streets of Tarkov', 'is_required_for_kappa': 'false'},
+    {'name': 'Broadcast - Part 3', 'url': 'https://escapefromtarkov.fandom.com//wiki/Broadcast_-_Part_3', 'trader': 'Jaeger', 'location': 'Streets of Tarkov', 'is_required_for_kappa': 'false'},
+    {'name': 'Broadcast - Part 4', 'url': 'https://escapefromtarkov.fandom.com//wiki/Broadcast_-_Part_4', 'trader': 'Jaeger', 'location': 'Streets of Tarkov', 'is_required_for_kappa': 'false'},
+    {'name': 'Bullshit', 'url': 'https://escapefromtarkov.fandom.com//wiki/Bullshit', 'trader': 'Skier', 'location': 'Customs', 'is_required_for_kappa': 'true'},
+    {'name': 'Calibration', 'url': 'https://escapefromtarkov.fandom.com//wiki/Calibration', 'trader': 'Mechanic', 'location': '', 'is_required_for_kappa': 'false'},
+    {'name': 'Capturing Outposts', 'url': 'https://escapefromtarkov.fandom.com//wiki/Capturing_Outposts', 'trader': 'Prapor', 'location': '', 'is_required_for_kappa': 'true'},
+    {'name': 'Car Repair', 'url': 'https://escapefromtarkov.fandom.com//wiki/Car_Repair', 'trader': 'Therapist', 'location': '', 'is_required_for_kappa': 'true'},
+    {'name': 'Cargo X - Part 1', 'url': 'https://escapefromtarkov.fandom.com//wiki/Cargo_X_-_Part_1', 'trader': 'Peacekeeper', 'location': 'Shoreline', 'is_required_for_kappa': 'true'},
+    {'name': 'Cargo X - Part 2', 'url': 'https://escapefromtarkov.fandom.com//wiki/Cargo_X_-_Part_2', 'trader': 'Peacekeeper', 'location': 'Shoreline', 'is_required_for_kappa': 'true'},
+    {'name': 'Cargo X - Part 3', 'url': 'https://escapefromtarkov.fandom.com//wiki/Cargo_X_-_Part_3', 'trader': 'Peacekeeper', 'location': 'Shoreline', 'is_required_for_kappa': 'true'},
+    {'name': 'Cargo X - Part 4', 'url': 'https://escapefromtarkov.fandom.com//wiki/Cargo_X_-_Part_4', 'trader': 'Peacekeeper', 'location': 'Lighthouse', 'is_required_for_kappa': 'true'},
+    {'name': 'Cease Fire!', 'url': 'https://escapefromtarkov.fandom.com//wiki/Cease_Fire!', 'trader': 'Jaeger', 'location': 'Streets of Tarkov', 'is_required_for_kappa': 'false'},
+    {'name': 'Charisma Brings Success', 'url': 'https://escapefromtarkov.fandom.com//wiki/Charisma_Brings_Success', 'trader': 'Ragman', 'location': '', 'is_required_for_kappa': 'true'},
+    {'name': 'Checking', 'url': 'https://escapefromtarkov.fandom.com//wiki/Checking', 'trader': 'Prapor', 'location': 'Customs', 'is_required_for_kappa': 'true'},
+    {'name': 'Chemical - Part 1', 'url': 'https://escapefromtarkov.fandom.com//wiki/Chemical_-_Part_1', 'trader': 'Skier', 'location': 'Customs', 'is_required_for_kappa': 'true'},
+    {'name': 'Chemical - Part 2', 'url': 'https://escapefromtarkov.fandom.com//wiki/Chemical_-_Part_2', 'trader': 'Skier', 'location': 'Customs', 'is_required_for_kappa': 'true'},
+    {'name': 'Chemical - Part 3', 'url': 'https://escapefromtarkov.fandom.com//wiki/Chemical_-_Part_3', 'trader': 'Skier', 'location': 'Factory', 'is_required_for_kappa': 'true'},
+    {'name': 'Chemical - Part 4', 'url': 'https://escapefromtarkov.fandom.com//wiki/Chemical_-_Part_4', 'trader': 'Skier', 'location': 'Customs', 'is_required_for_kappa': 'false'},
+    {'name': 'Chemistry Closet', 'url': 'https://escapefromtarkov.fandom.com//wiki/Chemistry_Closet', 'trader': 'Mechanic', 'location': 'Shoreline', 'is_required_for_kappa': 'true'},
+    {'name': 'Chumming', 'url': 'https://escapefromtarkov.fandom.com//wiki/Chumming', 'trader': 'Skier', 'location': 'Customs, Woods, Interchange', 'is_required_for_kappa': 'true'},
+    {'name': 'Classified Technologies', 'url': 'https://escapefromtarkov.fandom.com//wiki/Classified_Technologies', 'trader': 'Peacekeeper', 'location': 'Reserve', 'is_required_for_kappa': 'true'},
+    {'name': 'Colleagues - Part 1', 'url': 'https://escapefromtarkov.fandom.com//wiki/Colleagues_-_Part_1', 'trader': 'Therapist', 'location': 'Shoreline', 'is_required_for_kappa': 'true'},
+    {'name': 'Colleagues - Part 2', 'url': 'https://escapefromtarkov.fandom.com//wiki/Colleagues_-_Part_2', 'trader': 'Therapist', 'location': 'Shoreline', 'is_required_for_kappa': 'true'},
+    {'name': 'Colleagues - Part 3', 'url': 'https://escapefromtarkov.fandom.com//wiki/Colleagues_-_Part_3', 'trader': 'Therapist', 'location': 'Any', 'is_required_for_kappa': 'false'},
+    {'name': 'Collector', 'url': 'https://escapefromtarkov.fandom.com//wiki/Collector', 'trader': 'Fence', 'location': '', 'is_required_for_kappa': 'true'},
+    {'name': 'Communication Difficulties', 'url': 'https://escapefromtarkov.fandom.com//wiki/Communication_Difficulties', 'trader': 'Ragman', 'location': 'Lighthouse', 'is_required_for_kappa': 'false'},
+    {'name': 'Compensation for Damage - Barkeep', 'url': 'https://escapefromtarkov.fandom.com//wiki/Compensation_for_Damage_-_Barkeep', 'trader': 'Fence', 'location': '', 'is_required_for_kappa': 'false'},
+    {'name': 'Compensation for Damage - Collection', 'url': 'https://escapefromtarkov.fandom.com//wiki/Compensation_for_Damage_-_Collection', 'trader': 'Fence', 'location': '', 'is_required_for_kappa': 'false'},
+    {'name': 'Compensation for Damage - Trust', 'url': 'https://escapefromtarkov.fandom.com//wiki/Compensation_for_Damage_-_Trust', 'trader': 'Fence', 'location': '', 'is_required_for_kappa': 'false'},
+    {'name': 'Compensation for Damage - Wager', 'url': 'https://escapefromtarkov.fandom.com//wiki/Compensation_for_Damage_-_Wager', 'trader': 'Fence', 'location': '', 'is_required_for_kappa': 'false'},
+    {'name': 'Compensation for Damage - Wergild', 'url': 'https://escapefromtarkov.fandom.com//wiki/Compensation_for_Damage_-_Wergild', 'trader': 'Fence', 'location': '', 'is_required_for_kappa': 'false'},
+    {'name': 'Corporate Secrets', 'url': 'https://escapefromtarkov.fandom.com//wiki/Corporate_Secrets', 'trader': 'Mechanic', 'location': 'Lighthouse', 'is_required_for_kappa': 'true'},
+    {'name': 'Counteraction', 'url': 'https://escapefromtarkov.fandom.com//wiki/Counteraction', 'trader': 'Peacekeeper', 'location': 'Lighthouse', 'is_required_for_kappa': 'false'},
+    {'name': 'Courtesy Visit', 'url': 'https://escapefromtarkov.fandom.com//wiki/Courtesy_Visit', 'trader': 'Jaeger', 'location': 'Shoreline', 'is_required_for_kappa': 'true'},
+    {'name': 'Crisis', 'url': 'https://escapefromtarkov.fandom.com//wiki/Crisis', 'trader': 'Therapist', 'location': '', 'is_required_for_kappa': 'false'},
+    {'name': 'Dangerous Road', 'url': 'https://escapefromtarkov.fandom.com//wiki/Dangerous_Road', 'trader': 'Therapist', 'location': 'Streets of Tarkov', 'is_required_for_kappa': 'false'},
+    {'name': 'Database - Part 1', 'url': 'https://escapefromtarkov.fandom.com//wiki/Database_-_Part_1', 'trader': 'Ragman', 'location': 'Interchange', 'is_required_for_kappa': 'true'},
+    {'name': 'Database - Part 2', 'url': 'https://escapefromtarkov.fandom.com//wiki/Database_-_Part_2', 'trader': 'Ragman', 'location': 'Interchange', 'is_required_for_kappa': 'true'},
+    {'name': 'Debtor', 'url': 'https://escapefromtarkov.fandom.com//wiki/Debtor', 'trader': 'Skier', 'location': 'Streets of Tarkov', 'is_required_for_kappa': 'false'},
+    {'name': 'Debut', 'url': 'https://escapefromtarkov.fandom.com//wiki/Debut', 'trader': 'Prapor', 'location': '', 'is_required_for_kappa': 'true'},
+    {'name': 'Decontamination Service', 'url': 'https://escapefromtarkov.fandom.com//wiki/Decontamination_Service', 'trader': 'Therapist', 'location': 'Interchange', 'is_required_for_kappa': 'true'},
+    {'name': 'Delivery from the Past', 'url': 'https://escapefromtarkov.fandom.com//wiki/Delivery_from_the_Past', 'trader': 'Prapor', 'location': 'Customs, Factory', 'is_required_for_kappa': 'true'},
+    {'name': 'Disease History', 'url': 'https://escapefromtarkov.fandom.com//wiki/Disease_History', 'trader': 'Therapist', 'location': 'Reserve', 'is_required_for_kappa': 'true'},
+    {'name': 'Disrupting the Party', 'url': 'https://escapefromtarkov.fandom.com//wiki/Disrupting_the_Party', 'trader': 'Skier', 'location': 'Any', 'is_required_for_kappa': 'false'},
+    {'name': 'Documents', 'url': 'https://escapefromtarkov.fandom.com//wiki/Documents', 'trader': 'Prapor', 'location': 'Reserve', 'is_required_for_kappa': 'true'},
+    {'name': 'Dressed to Kill', 'url': 'https://escapefromtarkov.fandom.com//wiki/Dressed_to_Kill', 'trader': 'Ragman', 'location': '', 'is_required_for_kappa': 'true'},
+    {'name': 'Drug Trafficking', 'url': 'https://escapefromtarkov.fandom.com//wiki/Drug_Trafficking', 'trader': 'Therapist', 'location': 'Lighthouse', 'is_required_for_kappa': 'true'},
+    {'name': 'Eagle Eye', 'url': 'https://escapefromtarkov.fandom.com//wiki/Eagle_Eye', 'trader': 'Peacekeeper', 'location': 'Shoreline', 'is_required_for_kappa': 'true'},
+    {'name': 'Easy Job - Part 1', 'url': 'https://escapefromtarkov.fandom.com//wiki/Easy_Job_-_Part_1', 'trader': 'Prapor', 'location': 'Lighthouse', 'is_required_for_kappa': 'true'},
+    {'name': 'Easy Job - Part 2', 'url': 'https://escapefromtarkov.fandom.com//wiki/Easy_Job_-_Part_2', 'trader': 'Prapor', 'location': 'Lighthouse', 'is_required_for_kappa': 'true'},
+    {'name': 'Energy Crisis', 'url': 'https://escapefromtarkov.fandom.com//wiki/Energy_Crisis', 'trader': 'Mechanic', 'location': 'Lighthouse', 'is_required_for_kappa': 'true'},
+    {'name': 'Escort', 'url': 'https://escapefromtarkov.fandom.com//wiki/Escort', 'trader': 'Prapor', 'location': '', 'is_required_for_kappa': 'false'},
+    {'name': 'Fairy Tale Showdown', 'url': 'https://escapefromtarkov.fandom.com//wiki/Fairy_Tale_Showdown', 'trader': 'BEAR: PraporUSEC: Peacekeeper', 'location': 'Any', 'is_required_for_kappa': 'false'},
+    {'name': 'Farming - Part 1', 'url': 'https://escapefromtarkov.fandom.com//wiki/Farming_-_Part_1', 'trader': 'Mechanic', 'location': 'Factory', 'is_required_for_kappa': 'true'},
+    {'name': 'Farming - Part 2', 'url': 'https://escapefromtarkov.fandom.com//wiki/Farming_-_Part_2', 'trader': 'Mechanic', 'location': '', 'is_required_for_kappa': 'true'},
+    {'name': 'Farming - Part 3', 'url': 'https://escapefromtarkov.fandom.com//wiki/Farming_-_Part_3', 'trader': 'Mechanic', 'location': 'Customs', 'is_required_for_kappa': 'true'},
+    {'name': 'Farming - Part 4', 'url': 'https://escapefromtarkov.fandom.com//wiki/Farming_-_Part_4', 'trader': 'Mechanic', 'location': '', 'is_required_for_kappa': 'true'},
+    {'name': 'Fertilizers', 'url': 'https://escapefromtarkov.fandom.com//wiki/Fertilizers', 'trader': 'Mechanic', 'location': '', 'is_required_for_kappa': 'true'},
+    {'name': 'Fishing Gear', 'url': 'https://escapefromtarkov.fandom.com//wiki/Fishing_Gear', 'trader': 'Peacekeeper', 'location': 'Shoreline', 'is_required_for_kappa': 'true'},
+    {'name': 'Fishing Place', 'url': 'https://escapefromtarkov.fandom.com//wiki/Fishing_Place', 'trader': 'Jaeger', 'location': 'Any', 'is_required_for_kappa': 'true'},
+    {'name': 'Flint', 'url': 'https://escapefromtarkov.fandom.com//wiki/Flint', 'trader': 'Skier', 'location': '', 'is_required_for_kappa': 'true'},
+    {'name': 'Following the Bread Crumbs', 'url': 'https://escapefromtarkov.fandom.com//wiki/Following_the_Bread_Crumbs', 'trader': 'Lightkeeper', 'location': 'Reserve, The Lab', 'is_required_for_kappa': 'false'},
+    {'name': 'Friend from the West - Part 1', 'url': 'https://escapefromtarkov.fandom.com//wiki/Friend_from_the_West_-_Part_1', 'trader': 'Skier', 'location': '', 'is_required_for_kappa': 'true'},
+    {'name': 'Friend from the West - Part 2', 'url': 'https://escapefromtarkov.fandom.com//wiki/Friend_from_the_West_-_Part_2', 'trader': 'Skier', 'location': '', 'is_required_for_kappa': 'true'},
+    {'name': 'General Wares', 'url': 'https://escapefromtarkov.fandom.com//wiki/General_Wares', 'trader': 'Therapist', 'location': '', 'is_required_for_kappa': 'true'},
+    {'name': 'Getting Acquainted', 'url': 'https://escapefromtarkov.fandom.com//wiki/Getting_Acquainted', 'trader': 'Mechanic', 'location': '', 'is_required_for_kappa': 'false'},
+    {'name': 'Glory to CPSU', 'url': 'https://escapefromtarkov.fandom.com//wiki/Glory_to_CPSU', 'trader': 'Prapor', 'location': 'Streets of Tarkov', 'is_required_for_kappa': 'false'},
+    {'name': 'Golden Swag', 'url': 'https://escapefromtarkov.fandom.com//wiki/Golden_Swag', 'trader': 'Skier', 'location': 'Customs', 'is_required_for_kappa': 'true'},
+    {'name': 'Gratitude', 'url': 'https://escapefromtarkov.fandom.com//wiki/Gratitude', 'trader': 'Ragman', 'location': 'Woods', 'is_required_for_kappa': 'true'},
+    {'name': 'Green Corridor', 'url': 'https://escapefromtarkov.fandom.com//wiki/Green_Corridor', 'trader': 'Prapor', 'location': 'Streets of Tarkov', 'is_required_for_kappa': 'false'},
+    {'name': 'Grenadier', 'url': 'https://escapefromtarkov.fandom.com//wiki/Grenadier', 'trader': 'Prapor', 'location': '', 'is_required_for_kappa': 'true'},
+    {'name': 'Gunsmith - Part 1', 'url': 'https://escapefromtarkov.fandom.com//wiki/Gunsmith_-_Part_1', 'trader': 'Mechanic', 'location': '', 'is_required_for_kappa': 'true'},
+    {'name': 'Gunsmith - Part 10', 'url': 'https://escapefromtarkov.fandom.com//wiki/Gunsmith_-_Part_10', 'trader': 'Mechanic', 'location': '', 'is_required_for_kappa': 'true'},
+    {'name': 'Gunsmith - Part 11', 'url': 'https://escapefromtarkov.fandom.com//wiki/Gunsmith_-_Part_11', 'trader': 'Mechanic', 'location': '', 'is_required_for_kappa': 'true'},
+    {'name': 'Gunsmith - Part 12', 'url': 'https://escapefromtarkov.fandom.com//wiki/Gunsmith_-_Part_12', 'trader': 'Mechanic', 'location': '', 'is_required_for_kappa': 'true'},
+    {'name': 'Gunsmith - Part 13', 'url': 'https://escapefromtarkov.fandom.com//wiki/Gunsmith_-_Part_13', 'trader': 'Mechanic', 'location': '', 'is_required_for_kappa': 'true'},
+    {'name': 'Gunsmith - Part 14', 'url': 'https://escapefromtarkov.fandom.com//wiki/Gunsmith_-_Part_14', 'trader': 'Mechanic', 'location': '', 'is_required_for_kappa': 'true'},
+    {'name': 'Gunsmith - Part 15', 'url': 'https://escapefromtarkov.fandom.com//wiki/Gunsmith_-_Part_15', 'trader': 'Mechanic', 'location': '', 'is_required_for_kappa': 'true'},
+    {'name': 'Gunsmith - Part 16', 'url': 'https://escapefromtarkov.fandom.com//wiki/Gunsmith_-_Part_16', 'trader': 'Mechanic', 'location': '', 'is_required_for_kappa': 'true'},
+    {'name': 'Gunsmith - Part 17', 'url': 'https://escapefromtarkov.fandom.com//wiki/Gunsmith_-_Part_17', 'trader': 'Mechanic', 'location': '', 'is_required_for_kappa': 'true'},
+    {'name': 'Gunsmith - Part 18', 'url': 'https://escapefromtarkov.fandom.com//wiki/Gunsmith_-_Part_18', 'trader': 'Mechanic', 'location': '', 'is_required_for_kappa': 'true'},
+    {'name': 'Gunsmith - Part 19', 'url': 'https://escapefromtarkov.fandom.com//wiki/Gunsmith_-_Part_19', 'trader': 'Mechanic', 'location': '', 'is_required_for_kappa': 'true'},
+    {'name': 'Gunsmith - Part 2', 'url': 'https://escapefromtarkov.fandom.com//wiki/Gunsmith_-_Part_2', 'trader': 'Mechanic', 'location': '', 'is_required_for_kappa': 'true'},
+    {'name': 'Gunsmith - Part 20', 'url': 'https://escapefromtarkov.fandom.com//wiki/Gunsmith_-_Part_20', 'trader': 'Mechanic', 'location': '', 'is_required_for_kappa': 'true'},
+    {'name': 'Gunsmith - Part 21', 'url': 'https://escapefromtarkov.fandom.com//wiki/Gunsmith_-_Part_21', 'trader': 'Mechanic', 'location': '', 'is_required_for_kappa': 'true'},
+    {'name': 'Gunsmith - Part 22', 'url': 'https://escapefromtarkov.fandom.com//wiki/Gunsmith_-_Part_22', 'trader': 'Mechanic', 'location': '', 'is_required_for_kappa': 'true'},
+    {'name': 'Gunsmith - Part 3', 'url': 'https://escapefromtarkov.fandom.com//wiki/Gunsmith_-_Part_3', 'trader': 'Mechanic', 'location': '', 'is_required_for_kappa': 'true'},
+    {'name': 'Gunsmith - Part 4', 'url': 'https://escapefromtarkov.fandom.com//wiki/Gunsmith_-_Part_4', 'trader': 'Mechanic', 'location': '', 'is_required_for_kappa': 'true'},
+    {'name': 'Gunsmith - Part 5', 'url': 'https://escapefromtarkov.fandom.com//wiki/Gunsmith_-_Part_5', 'trader': 'Mechanic', 'location': '', 'is_required_for_kappa': 'true'},
+    {'name': 'Gunsmith - Part 6', 'url': 'https://escapefromtarkov.fandom.com//wiki/Gunsmith_-_Part_6', 'trader': 'Mechanic', 'location': '', 'is_required_for_kappa': 'true'},
+    {'name': 'Gunsmith - Part 7', 'url': 'https://escapefromtarkov.fandom.com//wiki/Gunsmith_-_Part_7', 'trader': 'Mechanic', 'location': '', 'is_required_for_kappa': 'true'},
+    {'name': 'Gunsmith - Part 8', 'url': 'https://escapefromtarkov.fandom.com//wiki/Gunsmith_-_Part_8', 'trader': 'Mechanic', 'location': '', 'is_required_for_kappa': 'true'},
+    {'name': 'Gunsmith - Part 9', 'url': 'https://escapefromtarkov.fandom.com//wiki/Gunsmith_-_Part_9', 'trader': 'Mechanic', 'location': '', 'is_required_for_kappa': 'true'},
+    {'name': 'Harley Forever', 'url': 'https://escapefromtarkov.fandom.com//wiki/Harley_Forever', 'trader': 'Ragman', 'location': 'Lighthouse, Streets of Tarkov', 'is_required_for_kappa': 'false'},
+    {'name': 'Health Care Privacy - Part 1', 'url': 'https://escapefromtarkov.fandom.com//wiki/Health_Care_Privacy_-_Part_1', 'trader': 'Therapist', 'location': 'Shoreline', 'is_required_for_kappa': 'true'},
+    {'name': 'Health Care Privacy - Part 2', 'url': 'https://escapefromtarkov.fandom.com//wiki/Health_Care_Privacy_-_Part_2', 'trader': 'Therapist', 'location': 'Shoreline', 'is_required_for_kappa': 'true'},
+    {'name': 'Health Care Privacy - Part 3', 'url': 'https://escapefromtarkov.fandom.com//wiki/Health_Care_Privacy_-_Part_3', 'trader': 'Therapist', 'location': 'Woods', 'is_required_for_kappa': 'true'},
+    {'name': 'Health Care Privacy - Part 4', 'url': 'https://escapefromtarkov.fandom.com//wiki/Health_Care_Privacy_-_Part_4', 'trader': 'Therapist', 'location': '', 'is_required_for_kappa': 'true'},
+    {'name': 'Health Care Privacy - Part 5', 'url': 'https://escapefromtarkov.fandom.com//wiki/Health_Care_Privacy_-_Part_5', 'trader': 'Therapist', 'location': 'Nighttime Factory', 'is_required_for_kappa': 'true'},
+    {'name': 'Hippocratic Oath', 'url': 'https://escapefromtarkov.fandom.com//wiki/Hippocratic_Oath', 'trader': 'Therapist', 'location': '', 'is_required_for_kappa': 'false'},
+    {'name': 'Home Comfort', 'url': 'https://escapefromtarkov.fandom.com//wiki/Home_Comfort', 'trader': 'Mechanic', 'location': 'Any', 'is_required_for_kappa': 'false'},
+    {'name': 'Hot Delivery', 'url': 'https://escapefromtarkov.fandom.com//wiki/Hot_Delivery', 'trader': 'Ragman', 'location': 'Interchange', 'is_required_for_kappa': 'true'},
+    {'name': 'House Arrest - Part 1', 'url': 'https://escapefromtarkov.fandom.com//wiki/House_Arrest_-_Part_1', 'trader': 'Skier', 'location': 'Streets of Tarkov', 'is_required_for_kappa': 'false'},
+    {'name': 'House Arrest - Part 2', 'url': 'https://escapefromtarkov.fandom.com//wiki/House_Arrest_-_Part_2', 'trader': 'Skier', 'location': 'Streets of Tarkov', 'is_required_for_kappa': 'false'},
+    {'name': 'Humanitarian Supplies', 'url': 'https://escapefromtarkov.fandom.com//wiki/Humanitarian_Supplies', 'trader': 'Peacekeeper', 'location': 'Shoreline', 'is_required_for_kappa': 'true'},
+    {'name': 'Hunter', 'url': 'https://escapefromtarkov.fandom.com//wiki/Hunter', 'trader': 'Jaeger', 'location': 'Woods', 'is_required_for_kappa': 'false'},
+    {'name': 'Hunting Trip', 'url': 'https://escapefromtarkov.fandom.com//wiki/Hunting_Trip', 'trader': 'Jaeger', 'location': '', 'is_required_for_kappa': 'true'},
+    {'name': 'Ice Cream Cones', 'url': 'https://escapefromtarkov.fandom.com//wiki/Ice_Cream_Cones', 'trader': 'Prapor', 'location': '', 'is_required_for_kappa': 'true'},
+    {'name': 'Import', 'url': 'https://escapefromtarkov.fandom.com//wiki/Import', 'trader': 'Mechanic', 'location': '', 'is_required_for_kappa': 'true'},
+    {'name': 'Information Source', 'url': 'https://escapefromtarkov.fandom.com//wiki/Information_Source', 'trader': 'Lightkeeper', 'location': 'Customs, Woods, Interchange, Streets of Tarkov', 'is_required_for_kappa': 'false'},
+    {'name': 'Informed Means Armed', 'url': 'https://escapefromtarkov.fandom.com//wiki/Informed_Means_Armed', 'trader': 'Skier', 'location': 'Interchange, Woods, Customs', 'is_required_for_kappa': 'true'},
+    {'name': 'Insider', 'url': 'https://escapefromtarkov.fandom.com//wiki/Insider', 'trader': 'Mechanic', 'location': '', 'is_required_for_kappa': 'true'},
+    {'name': 'Insomnia', 'url': 'https://escapefromtarkov.fandom.com//wiki/Insomnia', 'trader': 'Prapor', 'location': '', 'is_required_for_kappa': 'true'},
+    {'name': 'Intimidator', 'url': 'https://escapefromtarkov.fandom.com//wiki/Intimidator', 'trader': 'Prapor', 'location': '', 'is_required_for_kappa': 'true'},
+    {'name': 'Introduction', 'url': 'https://escapefromtarkov.fandom.com//wiki/Introduction', 'trader': 'Mechanic', 'location': 'Woods', 'is_required_for_kappa': 'true'},
+    {'name': 'Inventory Check', 'url': 'https://escapefromtarkov.fandom.com//wiki/Inventory_Check', 'trader': 'Ragman', 'location': 'Reserve', 'is_required_for_kappa': 'true'},
+    {'name': 'Key to the Tower', 'url': 'https://escapefromtarkov.fandom.com//wiki/Key_to_the_Tower', 'trader': 'Mechanic', 'location': 'Lighthouse', 'is_required_for_kappa': 'false'},
+    {'name': 'Kind of Sabotage', 'url': 'https://escapefromtarkov.fandom.com//wiki/Kind_of_Sabotage', 'trader': 'Skier', 'location': 'Woods', 'is_required_for_kappa': 'false'},
+    {'name': 'Kings of the Rooftops', 'url': 'https://escapefromtarkov.fandom.com//wiki/Kings_of_the_Rooftops', 'trader': 'Prapor', 'location': 'Streets of Tarkov', 'is_required_for_kappa': 'false'},
+    {'name': 'Knock-Knock', 'url': 'https://escapefromtarkov.fandom.com//wiki/Knock-Knock', 'trader': 'Mechanic', 'location': 'Lighthouse', 'is_required_for_kappa': 'false'},
+    {'name': 'Lend-Lease - Part 1', 'url': 'https://escapefromtarkov.fandom.com//wiki/Lend-Lease_-_Part_1', 'trader': 'Skier', 'location': 'Shoreline, Woods', 'is_required_for_kappa': 'true'},
+    {'name': 'Lend-Lease - Part 2', 'url': 'https://escapefromtarkov.fandom.com//wiki/Lend-Lease_-_Part_2', 'trader': 'Peacekeeper', 'location': '', 'is_required_for_kappa': 'true'},
+    {'name': 'Letters', 'url': 'https://escapefromtarkov.fandom.com//wiki/Letters', 'trader': 'Mechanic', 'location': 'Customs', 'is_required_for_kappa': 'false'},
+    {'name': 'Living High is Not a Crime - Part 1', 'url': 'https://escapefromtarkov.fandom.com//wiki/Living_High_is_Not_a_Crime_-_Part_1', 'trader': 'Ragman', 'location': '', 'is_required_for_kappa': 'true'},
+    {'name': 'Living High is Not a Crime - Part 2', 'url': 'https://escapefromtarkov.fandom.com//wiki/Living_High_is_Not_a_Crime_-_Part_2', 'trader': 'Ragman', 'location': '', 'is_required_for_kappa': 'true'},
+    {'name': 'Long Line', 'url': 'https://escapefromtarkov.fandom.com//wiki/Long_Line', 'trader': 'Ragman', 'location': 'Interchange', 'is_required_for_kappa': 'true'},
+    {'name': 'Long Road', 'url': 'https://escapefromtarkov.fandom.com//wiki/Long_Road', 'trader': 'Skier', 'location': 'Lighthouse', 'is_required_for_kappa': 'true'},
+    {'name': 'Lost Contact', 'url': 'https://escapefromtarkov.fandom.com//wiki/Lost_Contact', 'trader': 'Therapist', 'location': 'Lighthouse', 'is_required_for_kappa': 'true'},
+    {'name': 'Loyalty Buyout', 'url': 'https://escapefromtarkov.fandom.com//wiki/Loyalty_Buyout', 'trader': 'Skier', 'location': '', 'is_required_for_kappa': 'false'},
+    {'name': 'Make Amends', 'url': 'https://escapefromtarkov.fandom.com//wiki/Make_Amends', 'trader': 'Mechanic', 'location': '', 'is_required_for_kappa': 'false'},
+    {'name': 'Make Amends - Buyout', 'url': 'https://escapefromtarkov.fandom.com//wiki/Make_Amends_-_Buyout', 'trader': 'Mechanic', 'location': '', 'is_required_for_kappa': 'false'},
+    {'name': 'Make Amends - Equipment', 'url': 'https://escapefromtarkov.fandom.com//wiki/Make_Amends_-_Equipment', 'trader': 'Mechanic', 'location': '', 'is_required_for_kappa': 'false'},
+    {'name': 'Make Amends - Security', 'url': 'https://escapefromtarkov.fandom.com//wiki/Make_Amends_-_Security', 'trader': 'Mechanic', 'location': 'Reserve', 'is_required_for_kappa': 'false'},
+    {'name': 'Make Amends - Sweep Up', 'url': 'https://escapefromtarkov.fandom.com//wiki/Make_Amends_-_Sweep_Up', 'trader': 'Mechanic', 'location': 'Reserve', 'is_required_for_kappa': 'false'},
+    {'name': 'Make an Impression', 'url': 'https://escapefromtarkov.fandom.com//wiki/Make_an_Impression', 'trader': 'Lightkeeper', 'location': '', 'is_required_for_kappa': 'false'},
+    {'name': 'Make ULTRA Great Again', 'url': 'https://escapefromtarkov.fandom.com//wiki/Make_ULTRA_Great_Again', 'trader': 'Ragman', 'location': 'Interchange', 'is_required_for_kappa': 'true'},
+    {'name': 'Martial arts course', 'url': 'https://escapefromtarkov.fandom.com//wiki/Martial_arts_course', 'trader': 'Skier', 'location': '', 'is_required_for_kappa': 'false'},
+    {'name': 'Mentor', 'url': 'https://escapefromtarkov.fandom.com//wiki/Mentor', 'trader': 'Peacekeeper', 'location': '', 'is_required_for_kappa': 'false'},
+    {'name': 'Minibus', 'url': 'https://escapefromtarkov.fandom.com//wiki/Minibus', 'trader': 'Ragman', 'location': 'Interchange', 'is_required_for_kappa': 'true'},
+    {'name': 'Missing Cargo', 'url': 'https://escapefromtarkov.fandom.com//wiki/Missing_Cargo', 'trader': 'Skier', 'location': 'Lighthouse', 'is_required_for_kappa': 'true'},
+    {'name': 'Missing Informant', 'url': 'https://escapefromtarkov.fandom.com//wiki/Missing_Informant', 'trader': 'Lightkeeper', 'location': 'Streets of Tarkov', 'is_required_for_kappa': 'false'},
+    {'name': 'Network Provider - Part 1', 'url': 'https://escapefromtarkov.fandom.com//wiki/Network_Provider_-_Part_1', 'trader': 'Mechanic', 'location': '', 'is_required_for_kappa': 'false'},
+    {'name': 'Network Provider - Part 2', 'url': 'https://escapefromtarkov.fandom.com//wiki/Network_Provider_-_Part_2', 'trader': 'Mechanic', 'location': 'Lighthouse', 'is_required_for_kappa': 'false'},
+    {'name': 'Night Sweep', 'url': 'https://escapefromtarkov.fandom.com//wiki/Night_Sweep', 'trader': 'Skier', 'location': '', 'is_required_for_kappa': 'false'},
+    {'name': 'No Fuss Needed', 'url': 'https://escapefromtarkov.fandom.com//wiki/No_Fuss_Needed', 'trader': 'Ragman', 'location': '', 'is_required_for_kappa': 'true'},
+    {'name': 'No Gifts for You', 'url': 'https://escapefromtarkov.fandom.com//wiki/No_Gifts_for_You', 'trader': 'Jaeger', 'location': 'Any', 'is_required_for_kappa': 'false'},
+    {'name': 'No Offence', 'url': 'https://escapefromtarkov.fandom.com//wiki/No_Offence', 'trader': 'Prapor', 'location': '', 'is_required_for_kappa': 'false'},
+    {'name': 'No Place for Renegades', 'url': 'https://escapefromtarkov.fandom.com//wiki/No_Place_for_Renegades', 'trader': 'Prapor', 'location': 'Reserve', 'is_required_for_kappa': 'true'},
+    {'name': 'Nostalgia', 'url': 'https://escapefromtarkov.fandom.com//wiki/Nostalgia', 'trader': 'Jaeger', 'location': 'Shoreline', 'is_required_for_kappa': 'true'},
+    {'name': 'Only Business', 'url': 'https://escapefromtarkov.fandom.com//wiki/Only_Business', 'trader': 'Ragman', 'location': '', 'is_required_for_kappa': 'true'},
+    {'name': 'Operation Aquarius - Part 1', 'url': 'https://escapefromtarkov.fandom.com//wiki/Operation_Aquarius_-_Part_1', 'trader': 'Therapist', 'location': 'Customs', 'is_required_for_kappa': 'true'},
+    {'name': 'Operation Aquarius - Part 2', 'url': 'https://escapefromtarkov.fandom.com//wiki/Operation_Aquarius_-_Part_2', 'trader': 'Therapist', 'location': 'Customs', 'is_required_for_kappa': 'true'},
+    {'name': 'Our Own Land', 'url': 'https://escapefromtarkov.fandom.com//wiki/Our_Own_Land', 'trader': 'Prapor', 'location': 'Lighthouse', 'is_required_for_kappa': 'false'},
+    {'name': 'Out of Curiosity', 'url': 'https://escapefromtarkov.fandom.com//wiki/Out_of_Curiosity', 'trader': 'Therapist', 'location': 'Customs', 'is_required_for_kappa': 'false'},
+    {'name': 'Overpopulation', 'url': 'https://escapefromtarkov.fandom.com//wiki/Overpopulation', 'trader': 'Peacekeeper', 'location': 'Lighthouse', 'is_required_for_kappa': 'true'},
+    {'name': 'Painkiller', 'url': 'https://escapefromtarkov.fandom.com//wiki/Painkiller', 'trader': 'Therapist', 'location': '', 'is_required_for_kappa': 'true'},
+    {'name': 'Party Preparations', 'url': 'https://escapefromtarkov.fandom.com//wiki/Party_Preparations', 'trader': 'Ragman', 'location': '', 'is_required_for_kappa': 'false'},
+    {'name': 'Payback', 'url': 'https://escapefromtarkov.fandom.com//wiki/Payback', 'trader': 'Lightkeeper', 'location': 'Reserve', 'is_required_for_kappa': 'false'},
+    {'name': 'Peacekeeping Mission', 'url': 'https://escapefromtarkov.fandom.com//wiki/Peacekeeping_Mission', 'trader': 'Peacekeeper', 'location': 'Woods, Interchange, Shoreline, Customs, Streets of Tarkov', 'is_required_for_kappa': 'true'},
+    {'name': 'Perfect Mediator', 'url': 'https://escapefromtarkov.fandom.com//wiki/Perfect_Mediator', 'trader': 'Prapor', 'location': '', 'is_required_for_kappa': 'true'},
+    {'name': 'Pest Control', 'url': 'https://escapefromtarkov.fandom.com//wiki/Pest_Control', 'trader': 'Jaeger', 'location': 'Reserve', 'is_required_for_kappa': 'true'},
+    {'name': 'Pharmacist', 'url': 'https://escapefromtarkov.fandom.com//wiki/Pharmacist', 'trader': 'Therapist', 'location': 'Customs', 'is_required_for_kappa': 'true'},
+    {'name': 'Polikhim Hobo', 'url': 'https://escapefromtarkov.fandom.com//wiki/Polikhim_Hobo', 'trader': 'Prapor', 'location': 'Customs', 'is_required_for_kappa': 'true'},
+    {'name': 'Population Census', 'url': 'https://escapefromtarkov.fandom.com//wiki/Population_Census', 'trader': 'Therapist', 'location': 'Streets of Tarkov', 'is_required_for_kappa': 'false'},
+    {'name': 'Postman Pat - Part 1', 'url': 'https://escapefromtarkov.fandom.com//wiki/Postman_Pat_-_Part_1', 'trader': 'Prapor', 'location': 'Factory', 'is_required_for_kappa': 'true'},
+    {'name': 'Postman Pat - Part 2', 'url': 'https://escapefromtarkov.fandom.com//wiki/Postman_Pat_-_Part_2', 'trader': 'Therapist', 'location': 'Factory', 'is_required_for_kappa': 'true'},
+    {'name': 'Private Clinic', 'url': 'https://escapefromtarkov.fandom.com//wiki/Private_Clinic', 'trader': 'Therapist', 'location': '', 'is_required_for_kappa': 'true'},
+    {'name': 'Provocation', 'url': 'https://escapefromtarkov.fandom.com//wiki/Provocation', 'trader': 'Lightkeeper', 'location': 'Interchange', 'is_required_for_kappa': 'false'},
+    {'name': 'Psycho Sniper', 'url': 'https://escapefromtarkov.fandom.com//wiki/Psycho_Sniper', 'trader': 'Mechanic', 'location': '', 'is_required_for_kappa': 'true'},
+    {'name': 'Quests', 'url': 'https://escapefromtarkov.fandom.com//wiki/Quests', 'trader': '', 'location': '', 'is_required_for_kappa': 'false'},
+    {'name': 'Reconnaissance', 'url': 'https://escapefromtarkov.fandom.com//wiki/Reconnaissance', 'trader': 'Prapor', 'location': 'Lighthouse', 'is_required_for_kappa': 'true'},
+    {'name': 'Regulated Materials', 'url': 'https://escapefromtarkov.fandom.com//wiki/Regulated_Materials', 'trader': 'Prapor', 'location': 'Reserve', 'is_required_for_kappa': 'true'},
+    {'name': 'Reserve (quest)', 'url': 'https://escapefromtarkov.fandom.com//wiki/Reserve_(quest)', 'trader': 'Jaeger', 'location': 'Reserve', 'is_required_for_kappa': 'true'},
+    {'name': 'Return the Favor', 'url': 'https://escapefromtarkov.fandom.com//wiki/Return_the_Favor', 'trader': 'Lightkeeper', 'location': 'Woods', 'is_required_for_kappa': 'false'},
+    {'name': 'Revision - Lighthouse', 'url': 'https://escapefromtarkov.fandom.com//wiki/Revision_-_Lighthouse', 'trader': 'Peacekeeper', 'location': 'Lighthouse', 'is_required_for_kappa': 'true'},
+    {'name': 'Revision - Reserve', 'url': 'https://escapefromtarkov.fandom.com//wiki/Revision_-_Reserve', 'trader': 'Peacekeeper', 'location': 'Reserve', 'is_required_for_kappa': 'true'},
+    {'name': 'Revision - Streets of Tarkov', 'url': 'https://escapefromtarkov.fandom.com//wiki/Revision_-_Streets_of_Tarkov', 'trader': 'Peacekeeper', 'location': 'Streets of Tarkov', 'is_required_for_kappa': 'false'},
+    {'name': 'Rigged Game', 'url': 'https://escapefromtarkov.fandom.com//wiki/Rigged_Game', 'trader': 'Skier', 'location': 'Shoreline', 'is_required_for_kappa': 'true'},
+    {'name': 'Road Closed', 'url': 'https://escapefromtarkov.fandom.com//wiki/Road_Closed', 'trader': 'Peacekeeper', 'location': 'Streets of Tarkov', 'is_required_for_kappa': 'false'},
+    {'name': 'Safe Corridor', 'url': 'https://escapefromtarkov.fandom.com//wiki/Safe_Corridor', 'trader': 'Skier', 'location': 'Reserve', 'is_required_for_kappa': 'true'},
+    {'name': 'Sales Night', 'url': 'https://escapefromtarkov.fandom.com//wiki/Sales_Night', 'trader': 'Ragman', 'location': 'Interchange', 'is_required_for_kappa': 'true'},
+    {'name': 'Samples', 'url': 'https://escapefromtarkov.fandom.com//wiki/Samples', 'trader': 'Peacekeeper', 'location': 'Any', 'is_required_for_kappa': 'true'},
+    {'name': 'Sanitary Standards - Part 1', 'url': 'https://escapefromtarkov.fandom.com//wiki/Sanitary_Standards_-_Part_1', 'trader': 'Therapist', 'location': '', 'is_required_for_kappa': 'true'},
+    {'name': 'Sanitary Standards - Part 2', 'url': 'https://escapefromtarkov.fandom.com//wiki/Sanitary_Standards_-_Part_2', 'trader': 'Therapist', 'location': '', 'is_required_for_kappa': 'true'},
+    {'name': 'Scavenger', 'url': 'https://escapefromtarkov.fandom.com//wiki/Scavenger', 'trader': 'Ragman', 'location': '', 'is_required_for_kappa': 'true'},
+    {'name': 'Scout', 'url': 'https://escapefromtarkov.fandom.com//wiki/Scout', 'trader': 'Mechanic', 'location': 'Factory', 'is_required_for_kappa': 'true'},
+    {'name': 'Scrap Metal', 'url': 'https://escapefromtarkov.fandom.com//wiki/Scrap_Metal', 'trader': 'Peacekeeper', 'location': 'Shoreline', 'is_required_for_kappa': 'true'},
+    {'name': 'Search Mission', 'url': 'https://escapefromtarkov.fandom.com//wiki/Search_Mission', 'trader': 'Prapor', 'location': 'Woods', 'is_required_for_kappa': 'true'},
+    {'name': 'Seaside Vacation', 'url': 'https://escapefromtarkov.fandom.com//wiki/Seaside_Vacation', 'trader': 'Therapist', 'location': 'Lighthouse', 'is_required_for_kappa': 'true'},
+    {'name': 'Setup', 'url': 'https://escapefromtarkov.fandom.com//wiki/Setup', 'trader': 'Skier', 'location': 'Customs', 'is_required_for_kappa': 'true'},
+    {'name': 'Sew it Good - Part 1', 'url': 'https://escapefromtarkov.fandom.com//wiki/Sew_it_Good_-_Part_1', 'trader': 'Ragman', 'location': '', 'is_required_for_kappa': 'true'},
+    {'name': 'Sew it Good - Part 2', 'url': 'https://escapefromtarkov.fandom.com//wiki/Sew_it_Good_-_Part_2', 'trader': 'Ragman', 'location': '', 'is_required_for_kappa': 'true'},
+    {'name': 'Sew it Good - Part 3', 'url': 'https://escapefromtarkov.fandom.com//wiki/Sew_it_Good_-_Part_3', 'trader': 'Ragman', 'location': '', 'is_required_for_kappa': 'true'},
+    {'name': 'Sew it Good - Part 4', 'url': 'https://escapefromtarkov.fandom.com//wiki/Sew_it_Good_-_Part_4', 'trader': 'Ragman', 'location': '', 'is_required_for_kappa': 'true'},
+    {'name': 'Shady Business', 'url': 'https://escapefromtarkov.fandom.com//wiki/Shady_Business', 'trader': 'Jaeger', 'location': 'Any', 'is_required_for_kappa': 'true'},
+    {'name': 'Shaking up the Teller', 'url': 'https://escapefromtarkov.fandom.com//wiki/Shaking_up_the_Teller', 'trader': 'Prapor', 'location': 'Customs', 'is_required_for_kappa': 'true'},
+    {'name': 'Shootout Picnic', 'url': 'https://escapefromtarkov.fandom.com//wiki/Shootout_Picnic', 'trader': 'Prapor', 'location': 'Woods', 'is_required_for_kappa': 'true'},
+    {'name': 'Shortage', 'url': 'https://escapefromtarkov.fandom.com//wiki/Shortage', 'trader': 'Therapist', 'location': '', 'is_required_for_kappa': 'true'},
+    {'name': 'Signal - Part 1', 'url': 'https://escapefromtarkov.fandom.com//wiki/Signal_-_Part_1', 'trader': 'Mechanic', 'location': 'Shoreline', 'is_required_for_kappa': 'true'},
+    {'name': 'Signal - Part 2', 'url': 'https://escapefromtarkov.fandom.com//wiki/Signal_-_Part_2', 'trader': 'Mechanic', 'location': '', 'is_required_for_kappa': 'true'},
+    {'name': 'Signal - Part 3', 'url': 'https://escapefromtarkov.fandom.com//wiki/Signal_-_Part_3', 'trader': 'Mechanic', 'location': 'Shoreline', 'is_required_for_kappa': 'true'},
+    {'name': 'Signal - Part 4', 'url': 'https://escapefromtarkov.fandom.com//wiki/Signal_-_Part_4', 'trader': 'Mechanic', 'location': '', 'is_required_for_kappa': 'true'},
+    {'name': 'Silent Caliber', 'url': 'https://escapefromtarkov.fandom.com//wiki/Silent_Caliber', 'trader': 'Skier', 'location': '', 'is_required_for_kappa': 'true'},
+    {'name': 'Slaughterhouse', 'url': 'https://escapefromtarkov.fandom.com//wiki/Slaughterhouse', 'trader': 'Jaeger', 'location': '', 'is_required_for_kappa': 'false'},
+    {'name': 'Snatch', 'url': 'https://escapefromtarkov.fandom.com//wiki/Snatch', 'trader': 'Lightkeeper', 'location': 'Lighthouse, Reserve', 'is_required_for_kappa': 'false'},
+    {'name': 'Spa Tour - Part 1', 'url': 'https://escapefromtarkov.fandom.com//wiki/Spa_Tour_-_Part_1', 'trader': 'Peacekeeper', 'location': 'Shoreline', 'is_required_for_kappa': 'true'},
+    {'name': 'Spa Tour - Part 2', 'url': 'https://escapefromtarkov.fandom.com//wiki/Spa_Tour_-_Part_2', 'trader': 'Peacekeeper', 'location': 'Shoreline', 'is_required_for_kappa': 'true'},
+    {'name': 'Spa Tour - Part 3', 'url': 'https://escapefromtarkov.fandom.com//wiki/Spa_Tour_-_Part_3', 'trader': 'Peacekeeper', 'location': '', 'is_required_for_kappa': 'true'},
+    {'name': 'Spa Tour - Part 4', 'url': 'https://escapefromtarkov.fandom.com//wiki/Spa_Tour_-_Part_4', 'trader': 'Peacekeeper', 'location': 'Shoreline', 'is_required_for_kappa': 'true'},
+    {'name': 'Spa Tour - Part 5', 'url': 'https://escapefromtarkov.fandom.com//wiki/Spa_Tour_-_Part_5', 'trader': 'Peacekeeper', 'location': 'Shoreline', 'is_required_for_kappa': 'true'},
+    {'name': 'Spa Tour - Part 6', 'url': 'https://escapefromtarkov.fandom.com//wiki/Spa_Tour_-_Part_6', 'trader': 'Peacekeeper', 'location': '', 'is_required_for_kappa': 'true'},
+    {'name': 'Spa Tour - Part 7', 'url': 'https://escapefromtarkov.fandom.com//wiki/Spa_Tour_-_Part_7', 'trader': 'Peacekeeper', 'location': '', 'is_required_for_kappa': 'true'},
+    {'name': 'Special Equipment', 'url': 'https://escapefromtarkov.fandom.com//wiki/Special_Equipment', 'trader': 'Peacekeeper', 'location': '', 'is_required_for_kappa': 'false'},
+    {'name': 'Spotter', 'url': 'https://escapefromtarkov.fandom.com//wiki/Spotter', 'trader': 'Lightkeeper', 'location': 'Streets of Tarkov', 'is_required_for_kappa': 'false'},
+    {'name': 'Stirrup', 'url': 'https://escapefromtarkov.fandom.com//wiki/Stirrup', 'trader': 'Skier', 'location': '', 'is_required_for_kappa': 'true'},
+    {'name': 'Stop the Fight!', 'url': 'https://escapefromtarkov.fandom.com//wiki/Stop_the_Fight!', 'trader': 'Therapist', 'location': 'Any', 'is_required_for_kappa': 'false'},
+    {'name': 'Stray Dogs', 'url': 'https://escapefromtarkov.fandom.com//wiki/Stray_Dogs', 'trader': 'Jaeger', 'location': 'Customs, Woods, Shoreline, Lighthouse', 'is_required_for_kappa': 'true'},
+    {'name': 'Supervisor', 'url': 'https://escapefromtarkov.fandom.com//wiki/Supervisor', 'trader': 'Ragman', 'location': 'Interchange', 'is_required_for_kappa': 'true'},
+    {'name': 'Supplier', 'url': 'https://escapefromtarkov.fandom.com//wiki/Supplier', 'trader': 'Skier', 'location': '', 'is_required_for_kappa': 'true'},
+    {'name': 'Supply Plans', 'url': 'https://escapefromtarkov.fandom.com//wiki/Supply_Plans', 'trader': 'Therapist', 'location': 'Woods', 'is_required_for_kappa': 'false'},
+    {'name': 'Surplus Goods', 'url': 'https://escapefromtarkov.fandom.com//wiki/Surplus_Goods', 'trader': 'Mechanic', 'location': 'Reserve', 'is_required_for_kappa': 'true'},
+    {'name': 'Surveillance', 'url': 'https://escapefromtarkov.fandom.com//wiki/Surveillance', 'trader': 'Mechanic', 'location': 'Streets of Tarkov', 'is_required_for_kappa': 'false'},
+    {'name': 'Swift One', 'url': 'https://escapefromtarkov.fandom.com//wiki/Swift_One', 'trader': 'Jaeger', 'location': 'Woods', 'is_required_for_kappa': 'false'},
+    {'name': 'TerraGroup Employee', 'url': 'https://escapefromtarkov.fandom.com//wiki/TerraGroup_Employee', 'trader': 'Peacekeeper', 'location': 'The Lab', 'is_required_for_kappa': 'true'},
+    {'name': 'Test Drive - Part 1', 'url': 'https://escapefromtarkov.fandom.com//wiki/Test_Drive_-_Part_1', 'trader': 'Prapor', 'location': '', 'is_required_for_kappa': 'true'},
+    {'name': 'Test Drive - Part 2', 'url': 'https://escapefromtarkov.fandom.com//wiki/Test_Drive_-_Part_2', 'trader': 'Prapor', 'location': 'Streets of Tarkov', 'is_required_for_kappa': 'false'},
+    {'name': 'Textile - Part 1', 'url': 'https://escapefromtarkov.fandom.com//wiki/Textile_-_Part_1', 'trader': 'Ragman', 'location': '', 'is_required_for_kappa': 'false'},
+    {'name': 'Textile - Part 2', 'url': 'https://escapefromtarkov.fandom.com//wiki/Textile_-_Part_2', 'trader': 'Ragman', 'location': '', 'is_required_for_kappa': 'false'},
+    {'name': 'The Blood of War - Part 1', 'url': 'https://escapefromtarkov.fandom.com//wiki/The_Blood_of_War_-_Part_1', 'trader': 'Ragman', 'location': 'Interchange', 'is_required_for_kappa': 'true'},
+    {'name': 'The Blood of War - Part 2', 'url': 'https://escapefromtarkov.fandom.com//wiki/The_Blood_of_War_-_Part_2', 'trader': 'Ragman', 'location': '', 'is_required_for_kappa': 'true'},
+    {'name': 'The Blood of War - Part 3', 'url': 'https://escapefromtarkov.fandom.com//wiki/The_Blood_of_War_-_Part_3', 'trader': 'Ragman', 'location': 'Woods', 'is_required_for_kappa': 'true'},
+    {'name': 'The Bosses gathering', 'url': 'https://escapefromtarkov.fandom.com//wiki/The_Bosses_gathering', 'trader': 'Prapor', 'location': 'Reserve', 'is_required_for_kappa': 'false'},
+    {'name': 'The Bunker - Part 1', 'url': 'https://escapefromtarkov.fandom.com//wiki/The_Bunker_-_Part_1', 'trader': 'Prapor', 'location': 'Reserve', 'is_required_for_kappa': 'true'},
+    {'name': 'The Bunker - Part 2', 'url': 'https://escapefromtarkov.fandom.com//wiki/The_Bunker_-_Part_2', 'trader': 'Prapor', 'location': 'Reserve', 'is_required_for_kappa': 'true'},
+    {'name': 'The Choice', 'url': 'https://escapefromtarkov.fandom.com//wiki/The_Choice', 'trader': 'Fence', 'location': '', 'is_required_for_kappa': 'false'},
+    {'name': 'The Cleaner', 'url': 'https://escapefromtarkov.fandom.com//wiki/The_Cleaner', 'trader': 'Peacekeeper', 'location': 'Reserve', 'is_required_for_kappa': 'false'},
+    {'name': 'The Courier', 'url': 'https://escapefromtarkov.fandom.com//wiki/The_Courier', 'trader': 'Mechanic', 'location': 'Customs', 'is_required_for_kappa': 'false'},
+    {'name': 'The Cult - Part 1', 'url': 'https://escapefromtarkov.fandom.com//wiki/The_Cult_-_Part_1', 'trader': 'Peacekeeper', 'location': 'Shoreline', 'is_required_for_kappa': 'true'},
+    {'name': 'The Cult - Part 2', 'url': 'https://escapefromtarkov.fandom.com//wiki/The_Cult_-_Part_2', 'trader': 'Peacekeeper', 'location': 'Shoreline, Customs, Woods', 'is_required_for_kappa': 'true'},
+    {'name': 'The Delicious Sausage', 'url': 'https://escapefromtarkov.fandom.com//wiki/The_Delicious_Sausage', 'trader': 'Jaeger', 'location': 'Streets of Tarkov', 'is_required_for_kappa': 'false'},
+    {'name': 'The Extortionist', 'url': 'https://escapefromtarkov.fandom.com//wiki/The_Extortionist', 'trader': 'Skier', 'location': 'Customs', 'is_required_for_kappa': 'true'},
+    {'name': 'The Guide', 'url': 'https://escapefromtarkov.fandom.com//wiki/The_Guide', 'trader': 'Peacekeeper', 'location': 'Interchange, Shoreline, Factory, The Lab, Woods, Customs, Reserve, Lighthouse', 'is_required_for_kappa': 'true'},
+    {'name': 'The Hermit', 'url': 'https://escapefromtarkov.fandom.com//wiki/The_Hermit', 'trader': 'Jaeger', 'location': 'Lighthouse', 'is_required_for_kappa': 'true'},
+    {'name': 'The Huntsman Path - Administrator', 'url': 'https://escapefromtarkov.fandom.com//wiki/The_Huntsman_Path_-_Administrator', 'trader': 'Jaeger', 'location': 'Streets of Tarkov', 'is_required_for_kappa': 'false'},
+    {'name': 'The Huntsman Path - Controller', 'url': 'https://escapefromtarkov.fandom.com//wiki/The_Huntsman_Path_-_Controller', 'trader': 'Jaeger', 'location': 'Any', 'is_required_for_kappa': 'true'},
+    {'name': 'The Huntsman Path - Eraser - Part 1', 'url': 'https://escapefromtarkov.fandom.com//wiki/The_Huntsman_Path_-_Eraser_-_Part_1', 'trader': 'Jaeger', 'location': 'Reserve', 'is_required_for_kappa': 'true'},
+    {'name': 'The Huntsman Path - Eraser - Part 2', 'url': 'https://escapefromtarkov.fandom.com//wiki/The_Huntsman_Path_-_Eraser_-_Part_2', 'trader': 'Jaeger', 'location': 'The Lab, Reserve', 'is_required_for_kappa': 'true'},
+    {'name': 'The Huntsman Path - Evil Watchman', 'url': 'https://escapefromtarkov.fandom.com//wiki/The_Huntsman_Path_-_Evil_Watchman', 'trader': 'Jaeger', 'location': 'Customs', 'is_required_for_kappa': 'true'},
+    {'name': 'The Huntsman Path - Factory Chief', 'url': 'https://escapefromtarkov.fandom.com//wiki/The_Huntsman_Path_-_Factory_Chief', 'trader': 'Jaeger', 'location': 'Factory', 'is_required_for_kappa': 'true'},
+    {'name': 'The Huntsman Path - Forest Cleaning', 'url': 'https://escapefromtarkov.fandom.com//wiki/The_Huntsman_Path_-_Forest_Cleaning', 'trader': 'Jaeger', 'location': 'Any', 'is_required_for_kappa': 'true'},
+    {'name': 'The Huntsman Path - Justice', 'url': 'https://escapefromtarkov.fandom.com//wiki/The_Huntsman_Path_-_Justice', 'trader': 'Jaeger', 'location': 'Customs', 'is_required_for_kappa': 'true'},
+    {'name': 'The Huntsman Path - Outcasts', 'url': 'https://escapefromtarkov.fandom.com//wiki/The_Huntsman_Path_-_Outcasts', 'trader': 'Jaeger', 'location': 'Lighthouse', 'is_required_for_kappa': 'true'},
+    {'name': 'The Huntsman Path - Relentless', 'url': 'https://escapefromtarkov.fandom.com//wiki/The_Huntsman_Path_-_Relentless', 'trader': 'Jaeger', 'location': '', 'is_required_for_kappa': 'false'},
+    {'name': 'The Huntsman Path - Sadist', 'url': 'https://escapefromtarkov.fandom.com//wiki/The_Huntsman_Path_-_Sadist', 'trader': 'Jaeger', 'location': 'Shoreline', 'is_required_for_kappa': 'false'},
+    {'name': 'The Huntsman Path - Secured Perimeter', 'url': 'https://escapefromtarkov.fandom.com//wiki/The_Huntsman_Path_-_Secured_Perimeter', 'trader': 'Jaeger', 'location': 'Factory', 'is_required_for_kappa': 'true'},
+    {'name': 'The Huntsman Path - Sellout', 'url': 'https://escapefromtarkov.fandom.com//wiki/The_Huntsman_Path_-_Sellout', 'trader': 'Jaeger', 'location': 'Interchange', 'is_required_for_kappa': 'true'},
+    {'name': 'The Huntsman Path - Trophy', 'url': 'https://escapefromtarkov.fandom.com//wiki/The_Huntsman_Path_-_Trophy', 'trader': 'Jaeger', 'location': 'Customs', 'is_required_for_kappa': 'true'},
+    {'name': 'The Huntsman Path - Woods Keeper', 'url': 'https://escapefromtarkov.fandom.com//wiki/The_Huntsman_Path_-_Woods_Keeper', 'trader': 'Jaeger', 'location': 'Woods', 'is_required_for_kappa': 'true'},
+    {'name': 'The Key to Success', 'url': 'https://escapefromtarkov.fandom.com//wiki/The_Key_to_Success', 'trader': 'Ragman', 'location': 'Interchange', 'is_required_for_kappa': 'true'},
+    {'name': 'The Punisher - Part 1', 'url': 'https://escapefromtarkov.fandom.com//wiki/The_Punisher_-_Part_1', 'trader': 'Prapor', 'location': 'Shoreline', 'is_required_for_kappa': 'true'},
+    {'name': 'The Punisher - Part 2', 'url': 'https://escapefromtarkov.fandom.com//wiki/The_Punisher_-_Part_2', 'trader': 'Prapor', 'location': 'Shoreline', 'is_required_for_kappa': 'true'},
+    {'name': 'The Punisher - Part 3', 'url': 'https://escapefromtarkov.fandom.com//wiki/The_Punisher_-_Part_3', 'trader': 'Prapor', 'location': 'Customs', 'is_required_for_kappa': 'true'},
+    {'name': 'The Punisher - Part 4', 'url': 'https://escapefromtarkov.fandom.com//wiki/The_Punisher_-_Part_4', 'trader': 'Prapor', 'location': 'Woods, Shoreline', 'is_required_for_kappa': 'true'},
+    {'name': 'The Punisher - Part 5', 'url': 'https://escapefromtarkov.fandom.com//wiki/The_Punisher_-_Part_5', 'trader': 'Prapor', 'location': '', 'is_required_for_kappa': 'true'},
+    {'name': 'The Punisher - Part 6', 'url': 'https://escapefromtarkov.fandom.com//wiki/The_Punisher_-_Part_6', 'trader': 'Prapor', 'location': '', 'is_required_for_kappa': 'true'},
+    {'name': 'The Stylish One', 'url': 'https://escapefromtarkov.fandom.com//wiki/The_Stylish_One', 'trader': 'Ragman', 'location': 'Interchange', 'is_required_for_kappa': 'false'},
+    {'name': 'The Survivalist Path - Cold Blooded', 'url': 'https://escapefromtarkov.fandom.com//wiki/The_Survivalist_Path_-_Cold_Blooded', 'trader': 'Jaeger', 'location': 'Any', 'is_required_for_kappa': 'true'},
+    {'name': 'The Survivalist Path - Combat Medic', 'url': 'https://escapefromtarkov.fandom.com//wiki/The_Survivalist_Path_-_Combat_Medic', 'trader': 'Jaeger', 'location': 'Any', 'is_required_for_kappa': 'true'},
+    {'name': 'The Survivalist Path - Eagle-Owl', 'url': 'https://escapefromtarkov.fandom.com//wiki/The_Survivalist_Path_-_Eagle-Owl', 'trader': 'Jaeger', 'location': 'Any', 'is_required_for_kappa': 'true'},
+    {'name': 'The Survivalist Path - Junkie', 'url': 'https://escapefromtarkov.fandom.com//wiki/The_Survivalist_Path_-_Junkie', 'trader': 'Jaeger', 'location': 'Woods', 'is_required_for_kappa': 'true'},
+    {'name': 'The Survivalist Path - Thrifty', 'url': 'https://escapefromtarkov.fandom.com//wiki/The_Survivalist_Path_-_Thrifty', 'trader': 'Jaeger', 'location': 'Woods', 'is_required_for_kappa': 'true'},
+    {'name': 'The Survivalist Path - Tough Guy', 'url': 'https://escapefromtarkov.fandom.com//wiki/The_Survivalist_Path_-_Tough_Guy', 'trader': 'Jaeger', 'location': 'Woods', 'is_required_for_kappa': 'true'},
+    {'name': 'The Survivalist Path - Unprotected but Dangerous', 'url': 'https://escapefromtarkov.fandom.com//wiki/The_Survivalist_Path_-_Unprotected_but_Dangerous', 'trader': 'Jaeger', 'location': 'Woods', 'is_required_for_kappa': 'true'},
+    {'name': 'The Survivalist Path - Wounded Beast', 'url': 'https://escapefromtarkov.fandom.com//wiki/The_Survivalist_Path_-_Wounded_Beast', 'trader': 'Jaeger', 'location': 'Any', 'is_required_for_kappa': 'true'},
+    {'name': 'The Survivalist Path - Zatoichi', 'url': 'https://escapefromtarkov.fandom.com//wiki/The_Survivalist_Path_-_Zatoichi', 'trader': 'Jaeger', 'location': 'Any', 'is_required_for_kappa': 'false'},
+    {'name': 'The Survivalist Path - Zhivchik', 'url': 'https://escapefromtarkov.fandom.com//wiki/The_Survivalist_Path_-_Zhivchik', 'trader': 'Jaeger', 'location': 'Any', 'is_required_for_kappa': 'true'},
+    {'name': 'The Tarkov Shooter - Part 1', 'url': 'https://escapefromtarkov.fandom.com//wiki/The_Tarkov_Shooter_-_Part_1', 'trader': 'Jaeger', 'location': '', 'is_required_for_kappa': 'true'},
+    {'name': 'The Tarkov Shooter - Part 2', 'url': 'https://escapefromtarkov.fandom.com//wiki/The_Tarkov_Shooter_-_Part_2', 'trader': 'Jaeger', 'location': '', 'is_required_for_kappa': 'true'},
+    {'name': 'The Tarkov Shooter - Part 3', 'url': 'https://escapefromtarkov.fandom.com//wiki/The_Tarkov_Shooter_-_Part_3', 'trader': 'Jaeger', 'location': '', 'is_required_for_kappa': 'true'},
+    {'name': 'The Tarkov Shooter - Part 4', 'url': 'https://escapefromtarkov.fandom.com//wiki/The_Tarkov_Shooter_-_Part_4', 'trader': 'Jaeger', 'location': '', 'is_required_for_kappa': 'true'},
+    {'name': 'The Tarkov Shooter - Part 5', 'url': 'https://escapefromtarkov.fandom.com//wiki/The_Tarkov_Shooter_-_Part_5', 'trader': 'Jaeger', 'location': 'Customs', 'is_required_for_kappa': 'true'},
+    {'name': 'The Tarkov Shooter - Part 6', 'url': 'https://escapefromtarkov.fandom.com//wiki/The_Tarkov_Shooter_-_Part_6', 'trader': 'Jaeger', 'location': '', 'is_required_for_kappa': 'true'},
+    {'name': 'The Tarkov Shooter - Part 7', 'url': 'https://escapefromtarkov.fandom.com//wiki/The_Tarkov_Shooter_-_Part_7', 'trader': 'Jaeger', 'location': '', 'is_required_for_kappa': 'true'},
+    {'name': 'The Tarkov Shooter - Part 8', 'url': 'https://escapefromtarkov.fandom.com//wiki/The_Tarkov_Shooter_-_Part_8', 'trader': 'Jaeger', 'location': 'Woods', 'is_required_for_kappa': 'true'},
+    {'name': 'Tigr Safari', 'url': 'https://escapefromtarkov.fandom.com//wiki/Tigr_Safari', 'trader': 'Peacekeeper', 'location': 'Customs', 'is_required_for_kappa': 'true'},
+    {'name': 'To the Tree!', 'url': 'https://escapefromtarkov.fandom.com//wiki/To_the_Tree!', 'trader': 'Mechanic', 'location': 'Any', 'is_required_for_kappa': 'false'},
+    {'name': 'Top Secret', 'url': 'https://escapefromtarkov.fandom.com//wiki/Top_Secret', 'trader': 'Skier', 'location': 'Lighthouse', 'is_required_for_kappa': 'false'},
+    {'name': 'Trophies', 'url': 'https://escapefromtarkov.fandom.com//wiki/Trophies', 'trader': 'Peacekeeper', 'location': 'Any', 'is_required_for_kappa': 'false'},
+    {'name': 'Trouble in the Big City', 'url': 'https://escapefromtarkov.fandom.com//wiki/Trouble_in_the_Big_City', 'trader': 'Lightkeeper', 'location': '', 'is_required_for_kappa': 'false'},
+    {'name': 'Trust Regain', 'url': 'https://escapefromtarkov.fandom.com//wiki/Trust_Regain', 'trader': 'Therapist', 'location': '', 'is_required_for_kappa': 'false'},
+    {'name': 'Urban Medicine', 'url': 'https://escapefromtarkov.fandom.com//wiki/Urban_Medicine', 'trader': 'Therapist', 'location': 'Streets of Tarkov', 'is_required_for_kappa': 'false'},
+    {'name': 'Vitamins - Part 1', 'url': 'https://escapefromtarkov.fandom.com//wiki/Vitamins_-_Part_1', 'trader': 'Skier', 'location': 'Shoreline, Interchange', 'is_required_for_kappa': 'true'},
+    {'name': 'Vitamins - Part 2', 'url': 'https://escapefromtarkov.fandom.com//wiki/Vitamins_-_Part_2', 'trader': 'Skier', 'location': '', 'is_required_for_kappa': 'true'},
+    {'name': 'Watching You', 'url': 'https://escapefromtarkov.fandom.com//wiki/Watching_You', 'trader': 'Mechanic', 'location': 'Streets of Tarkov', 'is_required_for_kappa': 'false'},
+    {'name': 'Wet Job - Part 1', 'url': 'https://escapefromtarkov.fandom.com//wiki/Wet_Job_-_Part_1', 'trader': 'Peacekeeper', 'location': 'Shoreline', 'is_required_for_kappa': 'true'},
+    {'name': 'Wet Job - Part 2', 'url': 'https://escapefromtarkov.fandom.com//wiki/Wet_Job_-_Part_2', 'trader': 'Peacekeeper', 'location': 'Shoreline', 'is_required_for_kappa': 'true'},
+    {'name': 'Wet Job - Part 3', 'url': 'https://escapefromtarkov.fandom.com//wiki/Wet_Job_-_Part_3', 'trader': 'Peacekeeper', 'location': 'Shoreline', 'is_required_for_kappa': 'true'},
+    {'name': 'Wet Job - Part 4', 'url': 'https://escapefromtarkov.fandom.com//wiki/Wet_Job_-_Part_4', 'trader': 'Peacekeeper', 'location': 'Shoreline', 'is_required_for_kappa': 'true'},
+    {'name': 'Wet Job - Part 5', 'url': 'https://escapefromtarkov.fandom.com//wiki/Wet_Job_-_Part_5', 'trader': 'Peacekeeper', 'location': 'Shoreline', 'is_required_for_kappa': 'true'},
+    {'name': 'Wet Job - Part 6', 'url': 'https://escapefromtarkov.fandom.com//wiki/Wet_Job_-_Part_6', 'trader': 'Peacekeeper', 'location': '', 'is_required_for_kappa': 'true'},
+    {'name': 'What’s on the Flash Drive?', 'url': 'https://escapefromtarkov.fandom.com//wiki/What%E2%80%99s_on_the_Flash_Drive%3F', 'trader': 'Skier', 'location': 'Woods', 'is_required_for_kappa': 'true'},
+    {'name': 'Worst Job in the World', 'url': 'https://escapefromtarkov.fandom.com//wiki/Worst_Job_in_the_World', 'trader': 'Peacekeeper', 'location': '', 'is_required_for_kappa': 'false'},
+    {'name': "You've Got Mail", 'url': 'https://escapefromtarkov.fandom.com//wiki/You%27ve_Got_Mail', 'trader': 'Prapor', 'location': 'Streets of Tarkov', 'is_required_for_kappa': 'false'},
+    {'name': 'Your Car Needs a Service', 'url': 'https://escapefromtarkov.fandom.com//wiki/Your_Car_Needs_a_Service', 'trader': 'Peacekeeper', 'location': 'Streets of Tarkov', 'is_required_for_kappa': 'false'},
+];
+
+function debounce(callback, delay) {
+    let timeout;
+    return (...args) => {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => { callback.apply(this, args)}, delay);
+    };
+}
+
+
+let isSearchExecuted = false;
+let isSearchQueued = false;
+let searchQuery;
+let searchResults;
+let searchResultsDiv;
+let selectedSearchResultIndex = 0;
+
+function executeSearch() {
+    isSearchExecuted = false;
+    isSearchQueued = false;
+
+    let r = searchResults[selectedSearchResultIndex];
+    let div = document.createElement("div");
+    div.className = "quest-data";
+    let h1 = document.createElement("h1");
+    h1.innerText = r.name;
+    let span = document.createElement("span");
+    span.className = "quest-close"
+    span.onclick = function() { this.parentNode.remove(); return false; }
+    span.innerText = "x";
+    let iframe = document.createElement("iframe");
+    iframe.src = r.url + "#Guide";
+
+    div.appendChild(span);
+    div.appendChild(h1);
+    div.appendChild(iframe);
+    document.getElementById("quests").appendChild(div);
+
+
+    selectedSearchResultIndex = 0;
+    clearSearchResults();
+    document.getElementById("search").value = "";
+}
+
+function clearSearchResults() {
+    searchResultsDiv.innerHTML = "";
+    searchResultsDiv.style.visibility = "hidden";
+    searchResults = [];
+}
+
+function selectSearchResult(index) {
+    if (searchResults.length === 0) return;
+    if (index < 0) index = searchResults.length - 1;
+    if (index >= searchResults.length) index = 0;
+
+    searchResultsDiv.children[selectedSearchResultIndex].style.backgroundColor = "#f9f9f9"
+    selectedSearchResultIndex = index;
+    searchResultsDiv.children[selectedSearchResultIndex].style.backgroundColor = "#dadadd"
+}
+
+function loadSearchResults(results) {
+    isSearchQueued = false;
+
+    if (results === undefined || results.length === 0) {
+        clearSearchResults();
+        return;
+    }
+
+    searchResults = results;
+    searchResultsDiv.style.visibility = "visible";
+    searchResultsDiv.innerHTML = "";
+
+    for (let i = 0; i < searchResults.length; i++) {
+        let spanDiv = document.createElement("span");
+        spanDiv.innerText = searchResults[i].name;
+        searchResultsDiv.appendChild(spanDiv);
+        if (i === 0) selectSearchResult(0);
+    }
+
+    if (isSearchExecuted) {
+        executeSearch();
+    }
+}
+
+window.onload = function() {
+    searchResultsDiv = document.getElementById("searchResults");
+
+    var searchFunc = function(query) {
+        if (query === undefined || query === '') {
+            clearSearchResults();
+            return;
+        }
+
+        searchQuery = query;
+
+        results = []
+        for (let i = 0; i < QUEST_DATA.length; i++) {
+            if (QUEST_DATA[i]["name"].toLowerCase().indexOf(searchQuery.toLowerCase()) >= 0) results.push(QUEST_DATA[i]);
+        }
+
+        if (results.length > 0) loadSearchResults(results);
+    };
+    var searchDebounceFunc = undefined;
+    document.getElementById("search").addEventListener("input", function(e) {
+        if (searchDebounceFunc === undefined) searchDebounceFunc = debounce(searchFunc, 169);
+        isSearchQueued = true;
+        searchDebounceFunc(this.value);
+    });
+
+    document.getElementById("search").addEventListener("keydown", function(e) {
+        if (e.key === "Enter") {
+            isSearchExecuted = true;
+            if (!isSearchQueued) {
+                if (searchResults && searchResults.length > 0) {
+                    executeSearch();
+                } else {
+                    this.value = "";
+                    isSearchExecuted = false;
+                }
+            }
+        } else if (e.key === "ArrowUp") {
+            selectSearchResult(selectedSearchResultIndex - 1);
+        } else if (e.key === "ArrowDown") {
+            selectSearchResult(selectedSearchResultIndex + 1);
+        } else if (e.key === "Tab") {
+            e.preventDefault();
+            selectSearchResult(selectedSearchResultIndex + 1);
+        }
+    });
+};
+
+    </script>
+    <body>
+        <div id="page">
+            <div id="header">
+                <input id="search" type="text" value="" autofocus />
+                <div id="searchResults" />
+                <div id="filters"></div>
+            </div>
+            <div id="quests"/>
+        </div>
+        <!-- <iframe src="https://escapefromtarkov.fandom.com/wiki/The_Bunker_-_Part_1#Guide" title="bunker part uno" id="frame" height="500" width="800"></iframe> -->
+    </body>
+</html>

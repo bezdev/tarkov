@@ -1,0 +1,150 @@
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="quests.css" />
+    </head>
+    <script>
+// quest data
+
+function debounce(callback, delay) {
+    let timeout;
+    return (...args) => {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => { callback.apply(this, args)}, delay);
+    };
+}
+
+
+let isSearchExecuted = false;
+let isSearchQueued = false;
+let searchQuery;
+let searchResults;
+let searchResultsDiv;
+let selectedSearchResultIndex = 0;
+
+function executeSearch() {
+    isSearchExecuted = false;
+    isSearchQueued = false;
+
+    let r = searchResults[selectedSearchResultIndex];
+    let div = document.createElement("div");
+    div.className = "quest-data";
+    let h1 = document.createElement("h1");
+    h1.innerText = r.name;
+    let span = document.createElement("span");
+    span.className = "quest-close"
+    span.onclick = function() { this.parentNode.remove(); return false; }
+    span.innerText = "x";
+    let iframe = document.createElement("iframe");
+    iframe.src = r.url + "#Guide";
+
+    div.appendChild(span);
+    div.appendChild(h1);
+    div.appendChild(iframe);
+    document.getElementById("quests").appendChild(div);
+
+
+    selectedSearchResultIndex = 0;
+    clearSearchResults();
+    document.getElementById("search").value = "";
+}
+
+function clearSearchResults() {
+    searchResultsDiv.innerHTML = "";
+    searchResultsDiv.style.visibility = "hidden";
+    searchResults = [];
+}
+
+function selectSearchResult(index) {
+    if (searchResults.length === 0) return;
+    if (index < 0) index = searchResults.length - 1;
+    if (index >= searchResults.length) index = 0;
+
+    searchResultsDiv.children[selectedSearchResultIndex].style.backgroundColor = "#f9f9f9"
+    selectedSearchResultIndex = index;
+    searchResultsDiv.children[selectedSearchResultIndex].style.backgroundColor = "#dadadd"
+}
+
+function loadSearchResults(results) {
+    isSearchQueued = false;
+
+    if (results === undefined || results.length === 0) {
+        clearSearchResults();
+        return;
+    }
+
+    searchResults = results;
+    searchResultsDiv.style.visibility = "visible";
+    searchResultsDiv.innerHTML = "";
+
+    for (let i = 0; i < searchResults.length; i++) {
+        let spanDiv = document.createElement("span");
+        spanDiv.innerText = searchResults[i].name;
+        searchResultsDiv.appendChild(spanDiv);
+        if (i === 0) selectSearchResult(0);
+    }
+
+    if (isSearchExecuted) {
+        executeSearch();
+    }
+}
+
+window.onload = function() {
+    searchResultsDiv = document.getElementById("searchResults");
+
+    var searchFunc = function(query) {
+        if (query === undefined || query === '') {
+            clearSearchResults();
+            return;
+        }
+
+        searchQuery = query;
+
+        results = []
+        for (let i = 0; i < QUEST_DATA.length; i++) {
+            if (QUEST_DATA[i]["name"].toLowerCase().indexOf(searchQuery.toLowerCase()) >= 0) results.push(QUEST_DATA[i]);
+        }
+
+        if (results.length > 0) loadSearchResults(results);
+    };
+    var searchDebounceFunc = undefined;
+    document.getElementById("search").addEventListener("input", function(e) {
+        if (searchDebounceFunc === undefined) searchDebounceFunc = debounce(searchFunc, 169);
+        isSearchQueued = true;
+        searchDebounceFunc(this.value);
+    });
+
+    document.getElementById("search").addEventListener("keydown", function(e) {
+        if (e.key === "Enter") {
+            isSearchExecuted = true;
+            if (!isSearchQueued) {
+                if (searchResults && searchResults.length > 0) {
+                    executeSearch();
+                } else {
+                    this.value = "";
+                    isSearchExecuted = false;
+                }
+            }
+        } else if (e.key === "ArrowUp") {
+            selectSearchResult(selectedSearchResultIndex - 1);
+        } else if (e.key === "ArrowDown") {
+            selectSearchResult(selectedSearchResultIndex + 1);
+        } else if (e.key === "Tab") {
+            e.preventDefault();
+            selectSearchResult(selectedSearchResultIndex + 1);
+        }
+    });
+};
+
+    </script>
+    <body>
+        <div id="page">
+            <div id="header">
+                <input id="search" type="text" value="" autofocus />
+                <div id="searchResults" />
+                <div id="filters"></div>
+            </div>
+            <div id="quests"/>
+        </div>
+        <!-- <iframe src="https://escapefromtarkov.fandom.com/wiki/The_Bunker_-_Part_1#Guide" title="bunker part uno" id="frame" height="500" width="800"></iframe> -->
+    </body>
+</html>
